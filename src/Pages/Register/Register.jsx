@@ -1,9 +1,12 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router";
-import { auth } from "../../firebase.init";
+import { AuthContext } from "../../Context/Auth/AuthContext";
+// import { auth } from "../../firebase.init";
 
 const Register = () => {
+
+  const {createUser} = useContext(AuthContext)
 
     const [success, setSuccess] = useState(false)
 
@@ -16,12 +19,20 @@ const Register = () => {
         setSuccess(false)
 
         // firebase works for authentication
-        createUserWithEmailAndPassword(auth, email, password)
+        // createUserWithEmailAndPassword(auth, email, password)
+        // .then(result => {
+        //     console.log(result);
+        //     setSuccess(true)
+        // }).catch(error => {
+        //     console.log(error);
+        // })
+
+        // create user with Context and firebase
+        createUser(email, password)
         .then(result => {
-            console.log(result);
-            setSuccess(true)
+          console.log(result);
         }).catch(error => {
-            console.log(error);
+          console.log(error.code);
         })
     }
 
