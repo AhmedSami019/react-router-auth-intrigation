@@ -1,8 +1,11 @@
 import React, { use, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/Auth/AuthContext";
 
 const Login = () => {
+
+  const location = useLocation()
+  console.log(location);
 
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
@@ -24,7 +27,7 @@ const Login = () => {
     .then(result => {
       console.log(result);
       setSuccess(true)
-      navigate("/")
+      navigate(location.state || "/")
     }).catch(error => {
       console.log(error);
       setError(true)
