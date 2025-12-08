@@ -1,8 +1,12 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../../Context/Auth/AuthContext";
 
 const Login = () => {
+
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMassage, setErrorMassage] = useState("")
 
   // import signInUser form authProvider
   const {signInUser} = use(AuthContext)
@@ -16,8 +20,11 @@ const Login = () => {
     signInUser(email, password)
     .then(result => {
       console.log(result);
+      setSuccess(true)
     }).catch(error => {
       console.log(error);
+      setError(true)
+      setErrorMassage(error.code)
     })
   }
 
@@ -34,6 +41,12 @@ const Login = () => {
             <a className="link link-hover">Forgot password?</a>
           </div>
           <button className="btn btn-neutral mt-4">Login</button>
+          {
+            success&& <p className="text-green-500">user logged in successfully</p>
+          }
+          {
+            error && <p className="text-red-500">{errorMassage}</p>
+          }
         </form>
         <p>new in this site? please <Link className="text-blue-400 underline" to="/register">Register</Link></p>
       </div>
